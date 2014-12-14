@@ -45,7 +45,8 @@ namespace decode_aprs_short
                {
                    if (Encode.uns_data[i].Contains(">:"))
                        Encode.sort_data.Add(Encode.uns_data[i+1]);
-                  
+                   string test = Encode.sort_data[i];
+
                    // Comprimierte Elemente im Protokoll finden                                 // lala
                       // encode[tmp].
                     // Ausgabe in Text Box
