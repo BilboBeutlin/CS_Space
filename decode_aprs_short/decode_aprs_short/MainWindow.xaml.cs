@@ -30,23 +30,26 @@ namespace decode_aprs_short
         {
             OpenFileDialog dialog = new OpenFileDialog();
             bool? result = dialog.ShowDialog();
+            aprs Encode = new aprs();
 
             if (result == true)
             {
-               string [] new_data = System.IO.File.ReadAllLines(dialog.FileName);
-               List<decode> encode = new List<decode>();
-               for (int i = 0; i < new_data.Length; i++)
+               // Datum + Uhrzeit aus System lesen und in das entsprechende Format bringen
+               DateTime system_date = System.DateTime.Now;                               // System Datum+Uhrzeit holen
+               system_date = System.DateTime.SpecifyKind(system_date, DateTimeKind.Utc);  // System Datum+Uhrzeit  in UTC    
+               string sytem_date_str = system_date.ToUniversalTime().ToString("u");      // System Datum+Uhrzeit Konvertieren in "Universelles, sortierbares Datums-/Zeitmuster."
+               sytem_date_str = sytem_date_str.Remove(sytem_date_str.Length - 1);         // Das letzte Zeichen "Z" aus dem Datum löschen, wird immer mit rangehängt
+               //string [] new_data = System.IO.File.ReadAllLines(dialog.FileName);
+               Encode.uns_data = System.IO.File.ReadAllLines(dialog.FileName).ToList();
+               for (int i = 0; i < Encode.uns_data.Count; i++)
                {
-                       encode.Add(new decode(new_data[i]));
-                   // Datum + Uhrzeit aus System lesen und in das entsprechende Format bringen
-                       DateTime sytem_date = System.DateTime.Now;                               // System Datum+Uhrzeit holen
-                       sytem_date = System.DateTime.SpecifyKind(sytem_date, DateTimeKind.Utc);  // System Datum+Uhrzeit  in UTC    
-                       string sytem_date_str = sytem_date.ToUniversalTime().ToString("u");      // System Datum+Uhrzeit Konvertieren in "Universelles, sortierbares Datums-/Zeitmuster."
-                       sytem_date_str = sytem_date_str.Remove(sytem_date_str.Length-1);         // Das letzte Zeichen "Z" aus dem Datum löschen, wird immer mit rangehängt
+                   if (Encode.uns_data[i].Contains(">:"))
+                       Encode.sort_data.Add(Encode.uns_data[i+1]);
+                  
                    // Comprimierte Elemente im Protokoll finden                                 // lala
-                        
+                      // encode[tmp].
                     // Ausgabe in Text Box
-                       myTextBox.Text = sytem_date_str; 
+                       myTextBox.Text = "Hoöz"; 
                    
                }           
             }

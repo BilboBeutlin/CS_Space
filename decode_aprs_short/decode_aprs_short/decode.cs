@@ -6,25 +6,18 @@ using System.Threading.Tasks;
 
 namespace decode_aprs_short
 {
-    class decode
+    class aprs
     {
         string text;
-        uint count;
+        public string[] time;
+        public List<string> uns_data = new List<string>();
+        public List<string> sort_data = new List<string>();
+        
 
-        public string GetText()
+        public aprs()
         {
-            return text;
+            // TODO: Complete member initialization
         }
 
-        public decode(string text1)
-        {
-            this.text = text1;
-            count = 0;
-        }
-
-        public void PlusOne()
-        {
-            count++;
-        }
     }
 }
