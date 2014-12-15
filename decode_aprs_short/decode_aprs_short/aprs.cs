@@ -17,8 +17,13 @@ namespace decode_aprs_short
         // beinhaltetet die Zeit
         public List<string> Time = new List<string>();
         // beinhaltetet die Posiionswerte
-        public List<string> Position = new List<string>();
-
+        public List<string> Raw_Position = new List<string>();
+        // beinhaltet die Latitude decodierten
+        public List<double> Lat = new List<double>();
+        // beinhaltet die Longditude decodierten
+        public List<double> Long = new List<double>();
+        // beinhaltet die Telemetriedaten
+        public List<string> Telemetry = new List<string>();
         
         public aprs()
         {

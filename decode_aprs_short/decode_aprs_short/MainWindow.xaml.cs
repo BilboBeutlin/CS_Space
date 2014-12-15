@@ -40,7 +40,6 @@ namespace decode_aprs_short
                system_date = System.DateTime.SpecifyKind(system_date, DateTimeKind.Utc);  // System Datum+Uhrzeit  in UTC    
                string sytem_date_str = system_date.ToUniversalTime().ToString("u");      // System Datum+Uhrzeit Konvertieren in "Universelles, sortierbares Datums-/Zeitmuster."
                sytem_date_str = sytem_date_str.Remove(sytem_date_str.Length - 1);         // Das letzte Zeichen "Z" aus dem Datum löschen, wird immer mit rangehängt
-               //string [] new_data = System.IO.File.ReadAllLines(dialog.FileName);
                Encode.uns_data = System.IO.File.ReadAllLines(dialog.FileName).ToList();
                for (int i = 0; i < Encode.uns_data.Count; i++)
                {
@@ -55,22 +54,25 @@ namespace decode_aprs_short
                {
                    List<string> temp_list = new List<string> (Encode.sort_data[i].Split(new char[]{'/','E'},StringSplitOptions.RemoveEmptyEntries));
                    Encode.Time.Add(temp_list[0]);
-                   Encode.Position.Add(temp_list[1]);
-                   //Encode.Time.
-
-
+                   Encode.Raw_Position.Add(temp_list[1]);
                }
                for (int j = 0; j < Encode.Time.Count; j++)
                {
-
-                       Encode.Time[j] = Encode.Time[j].Insert(2, ":");
-                       Encode.Time[j] = Encode.Time[j].Insert(5, ":");
-                       var lang = Encode.Time[j].Length;   
-                    //Encode.Time[j] = Encode.Time[j].Remove(9, 'h');
-                       Encode.Time[j] = Encode.Time[j].Remove(8);           // h an letzter Stelle entfernen
-
+                  Encode.Time[j] = Encode.Time[j].Insert(2, ":");
+                  Encode.Time[j] = Encode.Time[j].Insert(5, ":");
+                  Encode.Time[j] = Encode.Time[j].Remove(8); // h an letzter Stelle entferne
                }
-
+                //
+                //float test = 90 - (new int (Encode.Position[0]) - 33); //* 91^3 + (Encode.Position[1] -33) *  91^2 + (Encode.Position[2] -33) * 91 + Encode.Position[4] -33) / 380926;
+               for (int i = 0; i < Encode.Raw_Position.Count; i++)
+               {
+                   // 90 - ((y 1 -33) x  91 3 + (y 2 -33) x  91 2 + (y 3 -33) x 91 + y 4 -33) / 380926
+                   double lat = (double) (90 - ((Encode.Raw_Position[i][0] - 33) * Math.Pow(91,3) + (Encode.Raw_Position[i][1] - 33) * Math.Pow(91,2) + (Encode.Raw_Position[i][2] - 33) * 91 + (Encode.Raw_Position[i][3] - 33)) / 380926);
+                   Decode.Lat.Add(lat);
+                   double longd = (double) (-180 + ((Encode.Raw_Position[i][4] -33) * Math.Pow(91,3) + (Encode.Raw_Position[i][5] -33) * Math.Pow(91,2) + (Encode.Raw_Position[i][6] -33) *  91 + Encode.Raw_Position[i][7] -33) / 190463);
+                   Decode.Long.Add(longd);
+                   //double lat = (double) 90 - ((Encode.Position[i][0] - 33) * Math.Pow(91,3));
+               }
                 
                
             }
