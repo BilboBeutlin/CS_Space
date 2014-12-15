@@ -31,6 +31,7 @@ namespace decode_aprs_short
             OpenFileDialog dialog = new OpenFileDialog();
             bool? result = dialog.ShowDialog();
             aprs Encode = new aprs();
+            aprs Decode = new aprs();
 
             if (result == true)
             {
@@ -44,15 +45,34 @@ namespace decode_aprs_short
                for (int i = 0; i < Encode.uns_data.Count; i++)
                {
                    if (Encode.uns_data[i].Contains(">:"))
-                       Encode.sort_data.Add(Encode.uns_data[i+1]);
-                   string test = Encode.sort_data[i];
+                   {
+                       Encode.sort_data.Add(Encode.uns_data[i + 1]);
+                       // Ausgabe in Text Box
+                       // myTextBox.Text = "Hoöz";          
+                   }
+               }          
+               for (int i = 0; i < Encode.sort_data.Count; i++)
+               {
+                   List<string> temp_list = new List<string> (Encode.sort_data[i].Split(new char[]{'/','E'},StringSplitOptions.RemoveEmptyEntries));
+                   Encode.Time.Add(temp_list[0]);
+                   Encode.Position.Add(temp_list[1]);
+                   //Encode.Time.
 
-                   // Comprimierte Elemente im Protokoll finden                                 // lala
-                      // encode[tmp].
-                    // Ausgabe in Text Box
-                       myTextBox.Text = "Hoöz"; 
-                   
-               }           
+
+               }
+               for (int j = 0; j < Encode.Time.Count; j++)
+               {
+
+                       Encode.Time[j] = Encode.Time[j].Insert(2, ":");
+                       Encode.Time[j] = Encode.Time[j].Insert(5, ":");
+                       var lang = Encode.Time[j].Length;   
+                    //Encode.Time[j] = Encode.Time[j].Remove(9, 'h');
+                       Encode.Time[j] = Encode.Time[j].Remove(8);           // h an letzter Stelle entfernen
+
+               }
+
+                
+               
             }
         }
     }

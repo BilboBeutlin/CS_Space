@@ -9,25 +9,20 @@ namespace decode_aprs_short
     class aprs
     {
         string text;
-        public string time;
-        public List<string> uns_data = new List<string>();
-        public List<string> sort_data = new List<string>();
-        
+        //public string time;
+        // unsortierte Daten
+        public List<string> uns_data    = new List<string>();
+        // die wichtigsten Zeilen aus uns_date werde hier abgespeichert
+        public List<string> sort_data   = new List<string>();
+        // beinhaltetet die Zeit
+        public List<string> Time = new List<string>();
+        // beinhaltetet die Posiionswerte
+        public List<string> Position = new List<string>();
 
+        
         public aprs()
         {
             // TODO: Complete member initialization
-        }
-
-        public void TimeCpy (string input)
-        {
-            if(input[0] == '/')
-            {
-                for (int i = 1; i < 6; i++)
-			    {
-                    time[i] = input[i];
-			    }
-            }
         }
 
     }
