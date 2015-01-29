@@ -1,0 +1,3 @@
+TODO:
+APRS decodierung aus UIVIWE.txt erfolgreich, muss aber noch als Klasse koordiert werden.
+ebenso die Einbindung der weiteren Informationen, wo bisher kein Protokoll enthalten ist.
